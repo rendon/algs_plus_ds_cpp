@@ -24,3 +24,7 @@ bin/bst_test: src/bst_test.cpp src/bst.h
 bin/queue_test: src/queue_test.cpp src/queue.h
 	$(GXX) -std=c++11 -Wall -o bin/queue_test src/queue_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
 	bin/queue_test
+
+bin/stack_test: src/stack_test.cpp src/stack.h
+	$(GXX) -std=c++11 -Wall -o bin/stack_test src/stack_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
+	bin/stack_test
