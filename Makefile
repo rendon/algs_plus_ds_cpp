@@ -16,3 +16,7 @@ bin/rectangle_intersection_test: src/rectangle_intersection_test.cpp src/rectang
 bin/single_linked_list_test: src/single_linked_list_test.cpp src/single_linked_list.h
 	$(GXX) -std=c++11 -Wall -o bin/single_linked_list_test src/single_linked_list_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
 	bin/single_linked_list_test
+
+bin/bst_test: src/bst_test.cpp src/bst.h
+	$(GXX) -std=c++11 -Wall -o bin/bst_test src/bst_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
+	bin/bst_test
