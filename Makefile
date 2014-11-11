@@ -36,3 +36,7 @@ bin/trie_test: src/trie_test.cpp src/trie.h
 bin/word_break_test: src/word_break_test.cpp src/word_break.h
 	$(GXX) -std=c++11 -Wall -o bin/word_break_test src/word_break_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
 	bin/word_break_test
+
+bin/peak_test: src/peak_test.cpp src/peak.h
+	$(GXX) -std=c++11 -Wall -o bin/peak_test src/peak_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
+	bin/peak_test
