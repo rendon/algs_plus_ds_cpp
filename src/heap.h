@@ -27,21 +27,18 @@ private:
         while (k < size_ / 2) {
             int l = left(k);
             int r = right(k);
-            if (r < size_) {
-                if (H[k] < H[l] || H[k] < H[r]) {
-                    if (H[l] < H[r]) {
-                        swap(H[k], H[r]);
-                        k = r;
-                    } else {
-                        swap(H[k], H[l]);
-                        k = l;
-                    }
-                } else {
-                    break;
-                }
-            } else if (H[k] < H[l]) {
-                swap(H[k], H[l]);
-                k = l;
+            int largest = k;
+            if (l < size_ && H[largest] < H[l]) {
+                largest = l;
+            }
+
+            if (r < size_ && H[largest] < H[r]) {
+                largest = r;
+            }
+
+            if (H[k] < H[largest]) {
+                swap(H[k], H[largest]);
+                k = largest;
             } else {
                 break;
             }
