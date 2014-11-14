@@ -44,3 +44,7 @@ bin/peak_test: src/peak_test.cpp src/peak.h
 bin/mergesort_test: src/mergesort_test.cpp src/mergesort.h
 	$(GXX) -std=c++11 -Wall -o bin/mergesort_test src/mergesort_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
 	bin/mergesort_test
+
+bin/heap_test: src/heap_test.cpp src/heap.h
+	$(GXX) -std=c++11 -Wall -o bin/heap_test src/heap_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread
+	bin/heap_test
