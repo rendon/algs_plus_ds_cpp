@@ -23,6 +23,10 @@ class BinarySearchTree {
                 }
         };
 
+        ~BinarySearchTree() {
+            clear(root_);
+        }
+
         BinarySearchTree() {
             root_ = nullptr;
         }
@@ -77,6 +81,10 @@ class BinarySearchTree {
 
         void deleteMax() {
             deleteMax(root_);
+        }
+
+        void clear() {
+            clear(root_);
         }
 
     private:
@@ -224,5 +232,17 @@ class BinarySearchTree {
             std::cout << node->data_ << "\n";
             dfs(node->right_);
         }
+
+        void clear(Node *node) {
+            if (!node) { return; }
+            if (node->left_) {
+                clear(node->left_);
+            }
+            if (node->right_) {
+                clear(node->right_);
+            }
+            delete node;
+        }
+
 };
 #endif
