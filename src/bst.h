@@ -10,10 +10,11 @@ class BinarySearchTree {
             public:
                 T data_;
                 int size_;
-                Node *left_, *right_;
+                Node *left_, *right_, *parent_;
                 Node() {
                     left_ = nullptr;
                     right_ = nullptr;
+                    parent_ = nullptr;
                     size_ = 0;
                 }
 
@@ -22,6 +23,74 @@ class BinarySearchTree {
                     size_ = 1;
                 }
         };
+
+        class iterator : std::iterator<std::input_iterator_tag, T> {
+            private:
+                BinarySearchTree* bst_;
+                Node* ptr_;
+                Node* last_;
+                void next() {
+                    if (!last_) {
+                        ptr_ = nullptr;
+                        return;
+                    }
+                    Node* prev = nullptr;
+                    while (ptr_ && (!ptr_->right_ || ptr_->right_ == prev)) {
+                        prev = ptr_;
+                        ptr_ = ptr_->parent_;
+                    }
+                    ptr_ = bst_->min(ptr_->right_);
+
+                    if (ptr_ == last_) {
+                        last_ = nullptr;
+                    }
+                }
+            public:
+                iterator() { 
+                    bst_ = nullptr;
+                }
+
+                iterator(BinarySearchTree* bst, Node *node) {
+                    bst_ = bst;
+                    ptr_ = bst_->min(node);
+                    last_ = bst_->max(node);
+                }
+
+                iterator& operator=(const iterator& that) {
+                    ptr_ = that.ptr_;
+                    bst_ = that.bst_;
+                    last_ = that.last_;
+                    return *this;
+                }
+
+                iterator& operator++() {
+                    next();
+                    return *this;
+                }
+
+                iterator operator++(int) {
+                    iterator temp = *this;
+                    next();
+                    return temp;
+                }
+
+                bool operator !=(const iterator& that) const {
+                    return ptr_ != that.ptr_;
+                }
+
+                T& operator*() {
+                    return ptr_->data_;
+                }
+
+        };
+
+        iterator begin() {
+            return iterator(this, root_);
+        }
+
+        iterator end() {
+            return iterator(this, nullptr);
+        }
 
         ~BinarySearchTree() {
             clear(root_);
@@ -100,6 +169,9 @@ class BinarySearchTree {
             if (!node) { return nullptr; }
             if (node->left_) {
                 node->left_ = unlinkMin(node->left_);
+                if (node->left_) {
+                    node->left_->parent_ = node;
+                }
                 node->size_ = size(node->right_) + size(node->left_) + 1;
                 return node;
             }
@@ -121,6 +193,12 @@ class BinarySearchTree {
                 node->left_ = t->left_;
                 delete t;
             }
+            if (node->left_) {
+                node->left_->parent_ = node;
+            }
+            if (node->right_) {
+                node->right_->parent_ = node;
+            }
             node->size_ = size(node->left_) + size(node->right_) + 1;
             return node;
         }
@@ -130,6 +208,9 @@ class BinarySearchTree {
             if (!node) { return nullptr; }
             if (node->left_) {
                 node->left_ = deleteMin(node->left_);
+                if (node->left_) {
+                    node->left_->parent_ = node;
+                }
                 node->size_ = size(node->left_) + size(node->right_) + 1;
                 return node;
             } else {
@@ -143,6 +224,9 @@ class BinarySearchTree {
             if (!node) { return nullptr; }
             if (node->right_) {
                 node->right_ = deleteMax(node->right_);
+                if (node->right_) {
+                    node->right_->parent_ = node;
+                }
                 node->size_ = size(node->left_) + size(node->right_) + 1;
                 return node;
             } else {
@@ -243,18 +327,15 @@ class BinarySearchTree {
                 return new Node(e);
             }
 
-            if (e == node->data_) {
-                return node;
-            }
-
             if (e < node->data_) {
                 node->left_ = insert(node->left_, e);
-                node->size_ = size(node->left_) + size(node->right_) + 1;
-            } else {
+                node->left_->parent_ = node;
+            } else if (node->data_ < e) {
                 node->right_ = insert(node->right_, e);
-                node->size_ = size(node->left_) + size(node->right_) + 1;
+                node->right_->parent_ = node;
             }
 
+            node->size_ = size(node->left_) + size(node->right_) + 1;
             return node;
         }
 

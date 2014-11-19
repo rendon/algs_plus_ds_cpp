@@ -184,6 +184,27 @@ TEST(BinarySearchTree, BinarySearchTreeDelete) {
     //cout << endl;
 }
 
+TEST(BinarySearchTree, TestIterator) {
+    vector<int> elements = {-33, 0, 1, 3, 5, 7, 8, 9, 12, 88, 100};
+    BinarySearchTree<int> tree;
+    for (int e : elements) {
+        tree.insert(e);
+    }
+
+    cout << "Elements: " << endl;
+    BinarySearchTree<int>::iterator it;
+    it = tree.begin();
+    while (it != tree.end()) {
+        cout << *it << " ";
+        ++it;
+    }
+    cout << endl;
+    cout << "Elements: " << endl;
+    for (int e : tree) {
+        cout << e << " ";
+    }
+    cout << endl;
+}
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
