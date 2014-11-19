@@ -60,11 +60,13 @@ class BinarySearchTree {
         }
 
         T* min() {
-            return min(root_);
+            if (!root_) { return nullptr; }
+            return &min(root_)->data_;
         }
 
         T* max() {
-            return max(root_);
+            if (!root_) { return nullptr; }
+            return &max(root_)->data_;
         }
 
         int rank(const T& e) {
@@ -87,8 +89,42 @@ class BinarySearchTree {
             clear(root_);
         }
 
+        void erase(const T& key) {
+            erase(root_, key);
+        }
+
     private:
         Node* root_;
+
+        Node* unlinkMin(Node *node) {
+            if (!node) { return nullptr; }
+            if (node->left_) {
+                node->left_ = unlinkMin(node->left_);
+                node->size_ = size(node->right_) + size(node->left_) + 1;
+                return node;
+            }
+
+            return node->right_;
+        }
+
+        /* Hibbard method to delete nodes from a BST.*/
+        Node* erase(Node* node, const T& key) {
+            if (!node) { return nullptr; }
+            if (key < node->data_) {
+                node->left_ = erase(node->left_, key);
+            } else if (node->data_ < key) {
+                node->right_ = erase(node->right_, key);
+            } else {
+                Node* t = node;
+                node = min(node->right_);
+                node->right_ = unlinkMin(t->right_);
+                node->left_ = t->left_;
+                delete t;
+            }
+            node->size_ = size(node->left_) + size(node->right_) + 1;
+            return node;
+        }
+
 
         Node* deleteMin(Node* node) {
             if (!node) { return nullptr; }
@@ -144,19 +180,19 @@ class BinarySearchTree {
             return node->size_;
         }
 
-        T* min(Node* node) {
+        Node* min(Node* node) {
             if (!node) { return nullptr; }
             if (!node->left_) {
-                return &node->data_;
+                return node;
             } else {
                 return min(node->left_);
             }
         }
 
-        T* max(Node* node) {
+        Node* max(Node* node) {
             if (!node) { return nullptr; }
             if (!node->right_) {
-                return &node->data_;
+                return node;
             } else {
                 return max(node->right_);
             }
@@ -229,7 +265,7 @@ class BinarySearchTree {
             }
 
             dfs(node->left_);
-            std::cout << node->data_ << "\n";
+            std::cout << node->data_ << " ";
             dfs(node->right_);
         }
 

@@ -150,6 +150,40 @@ TEST(BinarySearchTree, BinarySearchTreeDeleteMinMax) {
     EXPECT_EQ(7, *tree.select(0));
 }
 
+TEST(BinarySearchTree, BinarySearchTreeDelete) {
+    vector<int> elements = {-33, 0, 1, 3, 5, 7, 8, 9, 12, 88, 100};
+    BinarySearchTree<int> tree;
+    for (int e : elements) {
+        tree.insert(e);
+    }
+
+    //cout << "Orignal tree" << endl;
+    //tree.print();
+    //cout << endl;
+    int size = elements.size();
+    EXPECT_EQ(size, tree.size());
+    tree.erase(3);
+    size--;
+    EXPECT_EQ(size, tree.size());
+    //cout << "Delete 3:" << endl;
+    //tree.print();
+    //cout << endl;
+
+    tree.erase(88);
+    size--;
+    EXPECT_EQ(size, tree.size());
+    //cout << "Delete 88:" << endl;
+    //tree.print();
+    //cout << endl;
+
+    tree.erase(9);
+    size--;
+    EXPECT_EQ(size, tree.size());
+    //cout << "Delete 9:" << endl;
+    //tree.print();
+    //cout << endl;
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
