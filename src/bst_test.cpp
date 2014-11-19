@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "gtest/gtest.h"
 #include "bst.h"
 
@@ -205,6 +206,56 @@ TEST(BinarySearchTree, TestIterator) {
     }
     cout << endl;
 }
+
+TEST(BinarySearchTree, TestRangeQuery) {
+    vector<int> elements = {-33, 0, 1, 3, 5, 7, 8, 9, 12, 88, 100};
+    BinarySearchTree<int> tree;
+    for (int e : elements) {
+        tree.insert(e);
+    }
+    
+    
+    cout << "Range tests" << endl;
+    vector<const int*> values = tree.range(1, 12);
+    for (int i = 1; i < int(values.size()); i++) {
+        EXPECT_TRUE(values[i-1] <= values[i]);
+    }
+    for (const int* v : values) {
+        cout << *v << " ";
+    }
+    cout << endl;
+
+    cout << "Range tests" << endl;
+    values = tree.range(5, 9);
+    for (int i = 1; i < int(values.size()); i++) {
+        EXPECT_TRUE(values[i-1] <= values[i]);
+    }
+    for (const int* v : values) {
+        cout << *v << " ";
+    }
+    cout << endl;
+
+    cout << "Range tests" << endl;
+    values = tree.range(9, 5);
+    for (int i = 1; i < int(values.size()); i++) {
+        EXPECT_TRUE(values[i-1] <= values[i]);
+    }
+    for (const int* v : values) {
+        cout << *v << " ";
+    }
+    cout << endl;
+
+    cout << "Range tests" << endl;
+    values = tree.range(9, 9);
+    for (int i = 1; i < int(values.size()); i++) {
+        EXPECT_TRUE(values[i-1] <= values[i]);
+    }
+    for (const int* v : values) {
+        cout << *v << " ";
+    }
+    cout << endl;
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

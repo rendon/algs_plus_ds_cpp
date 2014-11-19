@@ -2,6 +2,8 @@
 #define BST_H_
 #include <iterator>
 #include <iostream>
+#include <vector>
+using namespace std;
 
 template<typename T>
 class BinarySearchTree {
@@ -162,8 +164,29 @@ class BinarySearchTree {
             erase(root_, key);
         }
 
+        vector<const T*> range(const T& low, const T& high) {
+            vector<const T*> values;
+            range(root_, low, high, values);
+            return values;
+        }
+
     private:
         Node* root_;
+
+        void range(Node *node, const T& low, const T& high, vector<const T*>& V) {
+            if (!node) { return; }
+            if (low < node->data_) {
+                range(node->left_, low, high, V);
+            }
+
+            if (low <= node->data_ && node->data_ <= high) {
+                V.push_back(&node->data_);
+            }
+
+            if (node->data_ < high) {
+                range(node->right_, low, high, V);
+            }
+        }
 
         Node* unlinkMin(Node *node) {
             if (!node) { return nullptr; }
