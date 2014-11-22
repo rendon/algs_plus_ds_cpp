@@ -49,3 +49,7 @@ bin/mergesort_test: src/mergesort_test.cpp src/mergesort.h
 bin/heap_test: src/heap_test.cpp src/heap.h
 	$(GXX) -std=c++11 -Wall -o bin/heap_test src/heap_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread $(CFLAGS)
 	bin/heap_test
+
+bin/red_black_tree_test: src/red_black_tree_test.cpp src/red_black_tree.h
+	$(GXX) -std=c++11 -Wall -o bin/red_black_tree_test src/red_black_tree_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread $(CFLAGS)
+	bin/red_black_tree_test
