@@ -52,4 +52,3 @@ bin/heap_test: src/heap_test.cpp src/heap.h
 
 bin/red_black_tree_test: src/red_black_tree_test.cpp src/red_black_tree.h
 	$(GXX) -std=c++11 -Wall -o bin/red_black_tree_test src/red_black_tree_test.cpp -I$(GTEST_ROOT)/include -L$(GTEST_ROOT)/lib -lgtest -lpthread $(CFLAGS)
-	bin/red_black_tree_test
